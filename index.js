@@ -30,7 +30,7 @@ client.on('messageReactionAdd', async (reaction) => {
 
     let shouldReply = false
 
-    for (const reactor of reactors) {
+    for (const [reactorId, reactor] of reactors) {
         const member = await memberManager.fetch(reactor)
 
         if (! member.roles.cache.has(process.env.ADMIN_ROLE_ID)) {
