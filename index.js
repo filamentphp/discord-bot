@@ -1,0 +1,59 @@
+const { Client, GatewayIntentBits } = require('discord.js')
+
+require('dotenv').config()
+
+const client = new Client({
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions]
+})
+
+client.on('ready', () => {
+    console.log(`Logged in as ${client.user.tag}!`)
+})
+
+client.on('messageReactionAdd', async (reaction) => {
+    const replies = {
+        '👀': `We're confident that you can find the answer to this question in the docs. Please visit <https://filamentphp.com/docs> and use the search input to find what you are looking for. If you are still having trouble, please reply to this message to provide more information about your use case.`,
+        '✨': `Please run \`php artisan filament:upgrade\`, recompile any frontend assets you may have, clear your browser cache, and delete the \`/resources/views/vendor\` directory if it exists. If the problem still persists, please reply to this message and let us know.`,
+        '🤔': `We're confused about what you mean by this question. Please read the <#${process.env.GUIDELINES_CHANNEL_ID}> and reply to this message to provide more information about your use case.`,
+        '🥴': `Please read the <#${process.env.GUIDELINES_CHANNEL_ID}> about how to format your code properly.`,
+        '⬆️': `Please upgrade to the latest Filament version using \`composer update\`.`,
+        '🖼️': `https://filamentphp.com/tricks/file-upload-previews-not-loading`,
+    }
+
+    if (! reaction.emoji.name in replies) {
+        return
+    }
+
+    const reactors = await reaction.users.fetch()
+    const memberManager = reaction.message.guild.members
+
+    const adminReactors = reactors
+        .map((user) => {
+            return memberManager.fetch(user)
+        })
+        .filter(async (member) => {
+            return (await member).roles.cache.has(process.env.ADMIN_ROLE_ID)
+        })
+
+    if (! adminReactors.length) {
+        return
+    }
+
+    const message = replies[reaction.emoji.name] ?? null
+
+    if (! message) {
+        return
+    }
+
+    await reaction.remove()
+    await reaction.message.reply({ content: message })
+})
+
+client.login(process.env.TOKEN).then(() => {
+    client.user.setPresence({
+        'activities': [{
+            'name': 'Filament users',
+            'type': 'WATCHING',
+        }],
+    })
+})
