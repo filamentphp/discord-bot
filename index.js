@@ -17,7 +17,7 @@ client.on('messageReactionAdd', async (reaction) => {
         '🤔': `We're confused about what you mean by this question. Please read the <#${process.env.GUIDELINES_CHANNEL_ID}> and reply to this message to provide more information about your use case.`,
         '🧐': `We need more information to help you debug your problem. Please click on the top left 'SHARE' button of the error page you're seeing and share the link with us.`,
         '🥴': `Please read the <#${process.env.GUIDELINES_CHANNEL_ID}> about how to format your code properly.`,
-        '❌': `Your question is on the wrong channel. Please use the right channel to ask questions.`,
+        '✋': `Your question is on the wrong channel. Please use the right channel to ask questions.`,
         '⬆️': `Please upgrade to the latest Filament version using \`composer update\`.`,
         '🖼️': `https://filamentphp.com/tricks/file-upload-previews-not-loading`,
     }
