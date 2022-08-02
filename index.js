@@ -28,15 +28,21 @@ client.on('messageReactionAdd', async (reaction) => {
     const reactors = await reaction.users.fetch()
     const memberManager = reaction.message.guild.members
 
-    const adminReactors = reactors
-        .map((user) => {
-            return memberManager.fetch(user)
-        })
-        .filter(async (member) => {
-            return (await member).roles.cache.has(process.env.ADMIN_ROLE_ID)
-        })
+    let shouldReply = false
 
-    if (! adminReactors.length) {
+    for (const reactor of reactors) {
+        const member = await memberManager.fetch(reactor)
+
+        if (! member.roles.cache.has(process.env.ADMIN_ROLE_ID)) {
+            continue
+        }
+        
+        shouldReply = true
+        
+        break
+    }
+
+    if (! shouldReply) {
         return
     }
 
