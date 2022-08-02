@@ -19,6 +19,7 @@ client.on('messageReactionAdd', async (reaction) => {
         '🥴': `Please read the <#${process.env.GUIDELINES_CHANNEL_ID}> about how to format your code properly.`,
         '⬆️': `Please upgrade to the latest Filament version using \`composer update\`.`,
         '🖼️': `https://filamentphp.com/tricks/file-upload-previews-not-loading`,
+        '❌': `It seems that your question is not related to Filament.`
     }
 
     if (! reaction.emoji.name in replies) {
