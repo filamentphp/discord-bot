@@ -1,0 +1,10 @@
+{
+    "name": "danharrin/discord-bot",
+    "authors": [
+        {
+            "name": "Dan Harrin",
+            "email": "git@danharrin.com"
+        }
+    ],
+    "require": {}
+}
