@@ -15,6 +15,7 @@ client.on('messageReactionAdd', async (reaction) => {
         '👀': `We're confident that you can find the answer to this question in the docs. Please visit <https://filamentphp.com/docs> and use the search input to find what you are looking for. If you are still having trouble, please reply to this message to provide more information about your use case.`,
         '✨': `Please run \`php artisan filament:upgrade\`, recompile any frontend assets you may have, clear your browser cache, and delete the \`/resources/views/vendor\` directory if it exists. If the problem still persists, please reply to this message and let us know.`,
         '🤔': `We're confused about what you mean by this question. Please read the <#${process.env.GUIDELINES_CHANNEL_ID}> and reply to this message to provide more information about your use case.`,
+        '❌': `It seems that your question is not related to Filament. To help as many Filament users as possible, we need to be selective over which questions get posted here.`,
         '🧐': `We need more information to help you debug your problem. Please click on the top left 'SHARE' button of the error page you're seeing and share the link with us.`,
         '🥴': `Please read the <#${process.env.GUIDELINES_CHANNEL_ID}> about how to format your code properly.`,
         '✋': `Your question is posted in the wrong channel. Each package and plugin has its own channel.`,
