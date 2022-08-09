@@ -21,6 +21,7 @@ client.on('messageReactionAdd', async (reaction) => {
         '✋': `Your question is posted in the wrong channel. Each package and plugin has its own channel.`,
         '⬆️': `Please upgrade to the latest Filament version using \`composer update\`.`,
         '🖼️': `https://filamentphp.com/tricks/file-upload-previews-not-loading`,
+        '🙅‍♂️': `Please ask about the actual _problem_, instead of your attempted _solution_ <https://xyproblem.info/>`,
     }
 
     if (! reaction.emoji.name in replies) {
