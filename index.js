@@ -19,6 +19,7 @@ client.on('messageReactionAdd', async (reaction) => {
         '🧐': `We need more information to help you debug your problem. Please click on the top left 'SHARE' button of the error page you're seeing and share the link with us.`,
         '🙅‍♂️': `Please ask about the actual _problem_ you're trying to solve, instead of your attempted _solution_. <https://xyproblem.info>`,
         '🥴': `Please read the <#${process.env.GUIDELINES_CHANNEL_ID}> about how to format your code properly.`,
+        '🔄': `Filament demo gets refreshed every hour, during this time it may be inaccessible for a short while. Please wait for a few minutes and check again. If the issue persists after several minutes, please reply to this message and let us know.`,
         '✋': `Your question is posted in the wrong channel. Each package and plugin has its own channel.`,
         '⬆️': `Please upgrade to the latest Filament version using \`composer update\`.`,
         '🖼️': `https://filamentphp.com/tricks/file-upload-previews-not-loading`,
