@@ -21,6 +21,7 @@ client.on('messageReactionAdd', async (reaction) => {
         '🥴': `Please read the <#${process.env.GUIDELINES_CHANNEL_ID}> about how to format your code properly.`,
         '✋': `Your question is posted in the wrong channel. Each package and plugin has its own channel.`,
         '⬆️': `Please upgrade to the latest Filament version using \`composer update\`.`,
+        '🔀': `Please don't post the same message across different channels.`,
         '🖼️': `https://filamentphp.com/tricks/file-upload-previews-not-loading`,
     }
 
