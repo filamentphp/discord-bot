@@ -10,6 +10,14 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`)
 })
 
+client.on('threadCreate', async (thread) => {
+    if (! thread.joinable) {
+        return
+    }
+    
+    await thread.join()
+})
+
 client.on('messageReactionAdd', async (reaction) => {
     const replies = {
         '👀': `We're confident that you can find the answer to this question in the docs. Please visit <https://filamentphp.com/docs> and use the search input to find what you are looking for. If you are still having trouble, please reply to this message to provide more information about your use case.`,
