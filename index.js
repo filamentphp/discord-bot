@@ -1,10 +1,14 @@
-const { Client, GatewayIntentBits } = require('discord.js')
+const { Client, GatewayIntentBits, Collection, Events } = require('discord.js')
+const v3when = require('./commands/v3when')
 
 require('dotenv').config()
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions]
 })
+
+const commands = new Collection()
+commands.set(v3when.data.name, v3when)
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`)
@@ -66,6 +70,26 @@ client.on('messageReactionAdd', async (reaction) => {
 
     await reaction.remove()
     await reaction.message.reply({ content: message })
+})
+
+client.on(Events.InteractionCreate, async interaction => {
+    if (! interaction.isChatInputCommand()) return
+
+    const command = commands.get(interaction.commandName)
+
+    if (! command) return;
+
+    try {
+        await command.execute(interaction)
+    } catch (e) {
+        console.error(e)
+
+        if (interaction.replied || interaction.deferred) {
+            await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true })
+        } else {
+            await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true })
+        }
+    }
 })
 
 client.login(process.env.TOKEN).then(() => {
