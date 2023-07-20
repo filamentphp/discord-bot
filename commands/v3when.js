@@ -5,7 +5,7 @@ module.exports = {
         .setName("v3when")
         .setDescription("When is v3 coming out?"),
     async execute(interaction) {
-        await interaction.reply(`**Beta**: https://github.com/filamentphp/filament/releases/tag/v3.0.0-beta1\n**Release**: ${release()}`)
+        await interaction.reply(`**Beta**: <https://github.com/filamentphp/filament/releases/tag/v3.0.0-beta1>\n**Release**: ${release()}`)
     }
 }
 
