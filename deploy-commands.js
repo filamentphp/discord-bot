@@ -1,11 +1,8 @@
 const { REST, Routes } = require('discord.js');
-const v3when = require('./commands/v3when');
 
 require('dotenv').config()
 
-const commands = [
-    v3when.data.toJSON()
-];
+const commands = [];
 
 const rest = new REST().setToken(process.env.TOKEN);
 
