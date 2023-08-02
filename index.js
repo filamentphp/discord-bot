@@ -1,5 +1,4 @@
 const { Client, GatewayIntentBits, Collection, Events } = require('discord.js')
-const v3when = require('./commands/v3when')
 
 require('dotenv').config()
 
@@ -8,7 +7,6 @@ const client = new Client({
 })
 
 const commands = new Collection()
-commands.set(v3when.data.name, v3when)
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`)
