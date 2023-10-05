@@ -1,5 +1,5 @@
 const { Client, GatewayIntentBits, Collection, Events } = require('discord.js')
-const contextMenuReplyCommands = require('./commands/context-menu-replies/index')
+const quickReplies = require('./commands/context-menu/quick-replies')
 
 require('dotenv').config()
 
@@ -8,13 +8,10 @@ const client = new Client({
 })
 
 const commandCollection = new Collection()
-const contextMenuReplyCommandCollection = new Collection()
-const reactionReplyCollection = new Collection()
+const contextMenuCommandCollection = new Collection()
+contextMenuCommandCollection.set(quickReplies.data.name, quickReplies);
 
-Object.values(contextMenuReplyCommands).forEach(command => {
-    contextMenuReplyCommandCollection.set(command.data.name, command)
-    reactionReplyCollection.set(command.emoji, command.message)
-})
+const reactionReplyCollection = quickReplies.reactionReplyCollection;
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`)
@@ -100,28 +97,12 @@ client.on(Events.InteractionCreate, async interaction => {
 
     // Context menu commands
     if (interaction.isMessageContextMenuCommand()) {
-        const memberManager = interaction.targetMessage.guild.members
-        const member = await memberManager.fetch(interaction.user)
-
-        if (! member.roles.cache.has(process.env.ADMIN_ROLE_ID)) {
-            await interaction.reply({ content: 'You do not have permission to run this command!', ephemeral: true })
-            return
-        }
-
-        const command = contextMenuReplyCommandCollection.get(interaction.commandName)
+        const command = contextMenuCommandCollection.get(interaction.commandName)
 
         if (! command) return
 
         try {
-            await interaction.targetMessage.reply({ content: command.message })
-    
-            await interaction.reply({
-                content: `You ran _${interaction.commandName}_ context menu command!`,
-                ephemeral: true,
-            })
-
-            // await interaction.deleteReply()
-
+            await command.execute(interaction)
         } catch (e) {
             console.error(e)
     

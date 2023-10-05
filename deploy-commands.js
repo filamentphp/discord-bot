@@ -1,9 +1,11 @@
 const { REST, Routes } = require('discord.js');
-const contextMenuReplyCommands = require('./commands/context-menu-replies/index');
+const quickReplies = require('./commands/context-menu/quick-replies');
 
 require('dotenv').config()
 
-const commands = Object.values(contextMenuReplyCommands).map(command => command.data.toJSON())
+const commands = [
+	quickReplies.data.toJSON(),
+]
 
 const rest = new REST().setToken(process.env.TOKEN);
 
