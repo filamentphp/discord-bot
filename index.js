@@ -12,6 +12,7 @@ const contextMenuCommandCollection = new Collection()
 contextMenuCommandCollection.set(quickReplies.data.name, quickReplies);
 
 const reactionReplyCollection = quickReplies.reactionReplyCollection;
+const keyReplyCollection = quickReplies.keyReplyCollection;
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`)
@@ -89,6 +90,41 @@ client.on(Events.InteractionCreate, async interaction => {
 
         try {
             await command.execute(interaction)
+        } catch (e) {
+            console.error(e)
+    
+            if (interaction.replied || interaction.deferred) {
+                await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true })
+            } else {
+                await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true })
+            }
+        }
+    }
+
+    if (interaction.isStringSelectMenu()) {
+        if (interaction.customId !== 'quickReplySelect') {
+            return
+        }
+
+        try {
+            const [targetMessageId, key] = interaction.values[0].split(':')
+
+            const message = keyReplyCollection.get(key) ?? null
+    
+            if (! message) {
+                return
+            }
+
+            const targetMessage = await interaction.channel.messages.fetch(targetMessageId)
+
+            await targetMessage.reply({ content: message })
+    
+            await interaction.reply({
+                content: `You ran a quick reply command!`,
+                ephemeral: true,
+            })
+
+            await interaction.deleteReply()
         } catch (e) {
             console.error(e)
     

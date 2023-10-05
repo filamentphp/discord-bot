@@ -95,7 +95,9 @@ module.exports = {
         .setName('Quick Replies')
         .setType(ApplicationCommandType.Message),
     async execute(interaction) {
-        const memberManager = interaction.targetMessage.guild.members;
+        const targetMessage = interaction.targetMessage;
+
+        const memberManager = targetMessage.guild.members;
         const member = await memberManager.fetch(interaction.user);
 
         if (! member.roles.cache.has(process.env.ADMIN_ROLE_ID)) {
@@ -109,7 +111,7 @@ module.exports = {
             quickReplySelectOptions.push(
                 new StringSelectMenuOptionBuilder()
                     .setLabel(quickReply.label)
-                    .setValue(quickReply.key)
+                    .setValue(targetMessage.id + ':' + quickReply.key)
                     .setDescription(quickReply.description)
             );
         }
