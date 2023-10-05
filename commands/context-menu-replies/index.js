@@ -1,0 +1,11 @@
+exports.docs = require('./docs');
+exports.troubleshoot = require('./troubleshoot');
+exports.confusingQuestion = require('./confusing-question');
+exports.irrelevant = require('./irrelevant');
+exports.moreInfo = require('./more-info');
+exports.xyProblem = require('./xy-problem');
+exports.codeFormat = require('./code-format');
+exports.wrongChannel = require('./wrong-channel');
+exports.upgrade = require('./upgrade');
+exports.crossPost = require('./cross-post');
+exports.filePreview = require('./file-preview');
