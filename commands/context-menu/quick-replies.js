@@ -57,7 +57,7 @@ const quickReplies = [
         label: 'Wrong Channel',
         description: 'Post in the correct channel',
         emoji: '✋',
-        reply: `Your question is posted in the wrong channel. Each plugin has its own channel.`,
+        reply: `Your question is posted in the wrong channel. For questions please use <#${process.env.HELP_CHANNEL_ID}> or the appropriate plugin channel.`,
     },
     {
         key: 'upgrade',
