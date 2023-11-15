@@ -4,14 +4,13 @@ const quickReplies = require('./commands/context-menu/quick-replies')
 require('dotenv').config()
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions]
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
 })
 
 const commandCollection = new Collection()
 const contextMenuCommandCollection = new Collection()
 contextMenuCommandCollection.set(quickReplies.data.name, quickReplies);
 
-const reactionReplyCollection = quickReplies.reactionReplyCollection;
 const keyReplyCollection = quickReplies.keyReplyCollection;
 
 client.on('ready', () => {
@@ -24,42 +23,6 @@ client.on('threadCreate', async (thread) => {
     }
     
     await thread.join()
-})
-
-client.on('messageReactionAdd', async (reaction) => {
-    if (! reactionReplyCollection.has(reaction.emoji.name)) {
-        return;
-    }
-
-    const reactors = await reaction.users.fetch()
-    const memberManager = reaction.message.guild.members
-
-    let shouldReply = false
-
-    for (const [reactorId, reactor] of reactors) {
-        const member = await memberManager.fetch(reactor)
-
-        if (! member.roles.cache.has(process.env.ADMIN_ROLE_ID)) {
-            continue
-        }
-        
-        shouldReply = true
-        
-        break
-    }
-
-    if (! shouldReply) {
-        return
-    }
-
-    const message = reactionReplyCollection.get(reaction.emoji.name) ?? null
-
-    if (! message) {
-        return
-    }
-
-    await reaction.remove()
-    await reaction.message.reply({ content: message })
 })
 
 client.on(Events.InteractionCreate, async interaction => {
